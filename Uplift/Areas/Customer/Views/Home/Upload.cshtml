@@ -1,0 +1,155 @@
+﻿@{
+    ViewData["Title"] = "Upload Fitness Profile";
+}
+<h1>@ViewData["Title"]</h1>
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OCR Sample</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <script type="text/javascript">
+        function processImage() {
+            // **********************************************
+            // *** Update or verify the following values. ***
+            // **********************************************
+
+            var subscriptionKey = "21bb573a218c41cab1038b768cc53538";
+            var endpoint = "https://eastus.api.cognitive.microsoft.com/";
+
+            var uriBase = endpoint + "vision/v2.1/ocr";
+
+            // Request parameters.
+            var params = {
+                "language": "unk",
+                "detectOrientation": "true",
+            };
+
+            // Display the image.
+            var sourceImageUrl = document.getElementById("inputImage").value;
+            document.querySelector("#sourceImage").src = sourceImageUrl;
+
+            // Perform the REST API call.
+            $.ajax({
+                url: uriBase + "?" + $.param(params),
+
+                // Request headers.
+                beforeSend: function (jqXHR) {
+                    jqXHR.setRequestHeader("Content-Type", "application/json");
+                    jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+                },
+
+                type: "POST",
+
+                // Request body.
+                data: '{"url": ' + '"' + sourceImageUrl + '"}',
+            })
+
+                .done(function (data) {
+                    // Show formatted JSON on webpage.
+                    $("#responseTextArea").val(JSON.stringify(data, null, 2));
+
+                    //Attempting to turn JSON to just text - Jake
+                    var results = JSON.parse(JSON.stringify(data, null, 2));
+
+
+
+
+                    var textResults = "";
+                    for (var regionCount = 0; regionCount < results.regions.length; regionCount++) {
+                        for (var lineCount = 0; lineCount < results.regions[regionCount].lines.length; lineCount++) {
+                            for (var wordCount = 0; wordCount < results.regions[regionCount].lines[lineCount].words.length; wordCount++) {
+
+                                textResults += results.regions[regionCount].lines[lineCount].words[wordCount].text + " ";
+                            }
+                        }
+                    }
+                    $("#responseTextArea").val(textResults);
+                    fillFields(textResults);
+                }
+
+
+                )
+
+                .fail(function (jqXHR, textStatus, errorThrown) {
+                    // Display error message.
+                    var errorString = (errorThrown === "") ?
+                        "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+                    errorString += (jqXHR.responseText === "") ? "" :
+                        (jQuery.parseJSON(jqXHR.responseText).message) ?
+                            jQuery.parseJSON(jqXHR.responseText).message :
+                            jQuery.parseJSON(jqXHR.responseText).error.message;
+                    alert(errorString);
+                });
+        };
+
+        function fillFields(text) {
+
+            var stPos = text.indexOf("Flights Climbed") + 16;
+            var endPos = text.indexOf("floors") - 1;
+            $("#flightsCLimbed").val(text.substring(stPos, endPos));
+
+            var stPos = text.indexOf("Steps") + 6;
+            var endPos = text.indexOf("steps Walking") - 1;
+            $("#steps").val(text.substring(stPos, endPos));
+
+            var stPos = text.indexOf("Running Distance") + 17;
+            var endPos = text.indexOf("m, ");
+            $("#distance").val(text.substring(stPos, endPos));
+
+
+        }
+    </script>
+
+
+    <br />
+    <h4>Follow these steps to upload a profile:</h4>
+    <ol>
+        <li>Upload a screenshot of your supported profile to <a href="https://www.techpowerup.org/upload/" target="_blank">techpowerup.org</a>.</li>
+        <li>Copy the <b>Image URL</b> found below the uploaded image.</li>
+        <li>Paste URL in the box below.</li>
+        <li>Press Submit.</li>
+    </ol>
+    <br />
+
+
+    Screenshot URL:
+    <input type="text" name="inputImage" id="inputImage" />
+    <button onclick="processImage()">Submit</button>
+    <br>
+    <ul>
+        <li>Supported image formats: JPEG, PNG, GIF, BMP.</li>
+        <li>Image file size must be less than 4MB.</li>
+        <li>Image dimensions must be between 50 x 50 and 4200 x 4200 pixels, and the image cannot be larger than 10 megapixels.</li>
+    </ul>
+
+    <br><br>
+
+    Flights Climbed:
+    <input type="text" name="flightsClimbed" id="flightsCLimbed" />
+    <br />
+    Steps:
+    <input type="text" name="steps" id="steps" />
+    <br />
+    Run/Walk Distance:
+    <input type="text" name="distance" id="distance" />
+    <br />
+    <br><br>
+
+    <div id="wrapper" style="width:1020px; display:table;">
+        <div id="jsonOutput" style="width:600px; display:table-cell;">
+            Text Results:
+            <textarea id="responseTextArea" class="UIInput"
+                      style="width:580px; height:400px;"></textarea>
+        </div>
+        <div id="imageDiv" style="width:420px; display:table-cell;">
+            Source image:
+            <br><br>
+            <img id="sourceImage" width="400" />
+        </div>
+    </div>
+</body>
+</html>
