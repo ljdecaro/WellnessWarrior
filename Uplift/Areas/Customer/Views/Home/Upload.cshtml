@@ -94,7 +94,7 @@
 
             var stPos = text.indexOf("Steps") + 6;
             var endPos = text.indexOf("steps Walking") - 1;
-            $("#steps").val(text.substring(stPos, endPos));
+            $("#steps").val(text.substring(stPos, endPos).replace(/,/g, ''));
 
             var stPos = text.indexOf("Running Distance") + 17;
             var endPos = text.indexOf("m, ");
