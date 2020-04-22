@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -13,15 +14,27 @@ namespace Uplift.Areas.Customer.Controllers
     [Area("Customer")]
     public class progressesController : Controller
     {
+
+
         private readonly ApplicationDbContext _context;
 
-        public progressesController(ApplicationDbContext context)
+        private readonly ApplicationDbContext context;
+        private readonly UserManager<IdentityUser> userManager;
+
+        public progressesController(ApplicationDbContext context,
+        UserManager<IdentityUser> userManager)
         {
             _context = context;
+            this.userManager = userManager;
         }
 
-        // GET: Customer/progresses
-        public async Task<IActionResult> Index()
+    //    public progressesController(ApplicationDbContext context)
+    //{
+    //    _context = context;
+    //}
+
+    // GET: Customer/progresses
+    public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Progress.Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
@@ -49,7 +62,8 @@ namespace Uplift.Areas.Customer.Controllers
         // GET: Customer/progresses/Create
         public IActionResult Create()
         {
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id");
+
+            ViewData["UserId"] = userManager.GetUserId(HttpContext.User);
             return View();
         }
 
@@ -67,7 +81,7 @@ namespace Uplift.Areas.Customer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", progress.UserId);
+            ViewData["UserId"] = "123";
             return View(progress);
         }
 

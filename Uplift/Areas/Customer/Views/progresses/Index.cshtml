@@ -14,7 +14,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.IdentityUser)
+                User
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.flights)
@@ -32,7 +32,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+                @Html.DisplayFor(modelItem => item.IdentityUser.Email)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.flights)
