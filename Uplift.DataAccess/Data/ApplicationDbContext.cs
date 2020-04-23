@@ -15,5 +15,7 @@ namespace Uplift.DataAccess.Data
         }
 
         public DbSet<progress> Progress { get; set; }
+        public DbSet<Contact> Contact { get; set; }
+
     }
 }

@@ -2,47 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Uplift.DataAccess.Data;
 using Uplift.Models;
 
-namespace Uplift.Areas.Customer.Controllers
+namespace Uplift.Areas.Customer
 {
     [Area("Customer")]
-    [Authorize]
-    public class progressesController : Controller
+    public class ContactController : Controller
     {
-
-
         private readonly ApplicationDbContext _context;
 
-        private readonly ApplicationDbContext context;
-        private readonly UserManager<IdentityUser> userManager;
-
-        public progressesController(ApplicationDbContext context,
-        UserManager<IdentityUser> userManager)
+        public ContactController(ApplicationDbContext context)
         {
             _context = context;
-            this.userManager = userManager;
         }
 
-    //    public progressesController(ApplicationDbContext context)
-    //{
-    //    _context = context;
-    //}
-
-    // GET: Customer/progresses
-    public async Task<IActionResult> Index()
+        // GET: Customer/Contact
+        public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Progress.Include(p => p.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Contact.ToListAsync());
         }
 
-        // GET: Customer/progresses/Details/5
+        // GET: Customer/Contact/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -50,44 +34,41 @@ namespace Uplift.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            var progress = await _context.Progress
-                .Include(p => p.IdentityUser)
+            var contact = await _context.Contact
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (progress == null)
+            if (contact == null)
             {
                 return NotFound();
             }
 
-            return View(progress);
+            return View(contact);
         }
 
-        // GET: Customer/progresses/Create
+        // GET: Customer/Contact/Create
         public IActionResult Create()
         {
-
-            ViewData["UserId"] = userManager.GetUserId(HttpContext.User);
             return View();
         }
 
-        // POST: Customer/progresses/Create
+        // POST: Customer/Contact/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserId,flights,steps,distance")] progress progress)
+        public async Task<IActionResult> Create([Bind("ID,CreateDate,Email,Name,Rating,Comment")] Contact contact)
         {
             if (ModelState.IsValid)
             {
-                progress.ID = Guid.NewGuid();
-                _context.Add(progress);
+                contact.ID = Guid.NewGuid();
+                contact.CreateDate = DateTime.Now;
+                _context.Add(contact);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = "123";
-            return View(progress);
+            return View(contact);
         }
 
-        // GET: Customer/progresses/Edit/5
+        // GET: Customer/Contact/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -95,23 +76,22 @@ namespace Uplift.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            var progress = await _context.Progress.FindAsync(id);
-            if (progress == null)
+            var contact = await _context.Contact.FindAsync(id);
+            if (contact == null)
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", progress.UserId);
-            return View(progress);
+            return View(contact);
         }
 
-        // POST: Customer/progresses/Edit/5
+        // POST: Customer/Contact/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ID,UserId,flights,steps,distance")] progress progress)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ID,CreateDate,Email,Name,Rating,Comment")] Contact contact)
         {
-            if (id != progress.ID)
+            if (id != contact.ID)
             {
                 return NotFound();
             }
@@ -120,12 +100,12 @@ namespace Uplift.Areas.Customer.Controllers
             {
                 try
                 {
-                    _context.Update(progress);
+                    _context.Update(contact);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!progressExists(progress.ID))
+                    if (!ContactExists(contact.ID))
                     {
                         return NotFound();
                     }
@@ -136,11 +116,10 @@ namespace Uplift.Areas.Customer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", progress.UserId);
-            return View(progress);
+            return View(contact);
         }
 
-        // GET: Customer/progresses/Delete/5
+        // GET: Customer/Contact/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -148,31 +127,30 @@ namespace Uplift.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            var progress = await _context.Progress
-                .Include(p => p.IdentityUser)
+            var contact = await _context.Contact
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (progress == null)
+            if (contact == null)
             {
                 return NotFound();
             }
 
-            return View(progress);
+            return View(contact);
         }
 
-        // POST: Customer/progresses/Delete/5
+        // POST: Customer/Contact/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var progress = await _context.Progress.FindAsync(id);
-            _context.Progress.Remove(progress);
+            var contact = await _context.Contact.FindAsync(id);
+            _context.Contact.Remove(contact);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool progressExists(Guid id)
+        private bool ContactExists(Guid id)
         {
-            return _context.Progress.Any(e => e.ID == id);
+            return _context.Contact.Any(e => e.ID == id);
         }
     }
 }
