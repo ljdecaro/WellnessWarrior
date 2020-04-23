@@ -5,37 +5,196 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
+
+<script type="text/javascript">
+    function processImage() {
+        // **********************************************
+        // *** Update or verify the following values. ***
+        // **********************************************
+
+        var subscriptionKey = "21bb573a218c41cab1038b768cc53538";
+        var endpoint = "https://eastus.api.cognitive.microsoft.com/";
+
+        var uriBase = endpoint + "vision/v2.1/ocr";
+
+        // Request parameters.
+        var params = {
+            "language": "unk",
+            "detectOrientation": "true",
+        };
+
+        // Display the image.
+        var sourceImageUrl = document.getElementById("inputImage").value;
+        document.querySelector("#sourceImage").src = sourceImageUrl;
+
+        // Perform the REST API call.
+        $.ajax({
+            url: uriBase + "?" + $.param(params),
+
+            // Request headers.
+            beforeSend: function (jqXHR) {
+                jqXHR.setRequestHeader("Content-Type", "application/json");
+                jqXHR.setRequestHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
+            },
+
+            type: "POST",
+
+            // Request body.
+            data: '{"url": ' + '"' + sourceImageUrl + '"}',
+        })
+
+            .done(function (data) {
+                // Show formatted JSON on webpage.
+                $("#responseTextArea").val(JSON.stringify(data, null, 2));
+
+                //Attempting to turn JSON to just text - Jake
+                var results = JSON.parse(JSON.stringify(data, null, 2));
+
+
+
+
+                var textResults = "";
+                for (var regionCount = 0; regionCount < results.regions.length; regionCount++) {
+                    for (var lineCount = 0; lineCount < results.regions[regionCount].lines.length; lineCount++) {
+                        for (var wordCount = 0; wordCount < results.regions[regionCount].lines[lineCount].words.length; wordCount++) {
+
+                            textResults += results.regions[regionCount].lines[lineCount].words[wordCount].text + " ";
+                        }
+                    }
+                }
+                $("#responseTextArea").val(textResults);
+                fillFields(textResults);
+            }
+
+
+            )
+
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                // Display error message.
+                var errorString = (errorThrown === "") ?
+                    "Error. " : errorThrown + " (" + jqXHR.status + "): ";
+                errorString += (jqXHR.responseText === "") ? "" :
+                    (jQuery.parseJSON(jqXHR.responseText).message) ?
+                        jQuery.parseJSON(jqXHR.responseText).message :
+                        jQuery.parseJSON(jqXHR.responseText).error.message;
+                alert(errorString);
+            });
+    };
+
+    function fillFields(text) {
+
+        var stPos = text.indexOf("Flights Climbed") + 16;
+        var endPos = text.indexOf("floors") - 1;
+        var flights = text.substring(stPos, endPos);
+        if (isNaN(parseInt(flights))) {
+            alert("Error locating 'Flights Climbed,' please manually enter.")
+        } else {
+            $("#flights").val(flights); 
+        }
+
+
+        var stPos = text.indexOf("Steps") + 6;
+        var endPos = text.indexOf("steps", stPos) - 1;
+        var steps = text.substring(stPos, endPos).replace(/,/g, '');
+        if (isNaN(parseInt(steps))) {
+            alert("Error locating 'Steps,' please manually enter.");
+        } else {
+            $("#steps").val(steps);
+        }
+        
+
+        var stPos = text.indexOf("Running Distance") + 17;
+        var endPos = text.indexOf("m", stPos);
+        var distance = text.substring(stPos, endPos);
+        if (isNaN(parseFloat(distance))) {
+            alert("Error locating 'Walking + Running Distance,' please manually enter.")
+        } else {
+            $("#distance").val(distance);
+        }
+
+    }
+</script>
+
+
+
+
 <h1>Create</h1>
+
+
+
+
+<br />
+<h4>Follow these steps to upload a profile:</h4>
+<ol>
+    <li>Upload a screenshot of your supported profile to <a href="https://www.techpowerup.org/upload/" target="_blank">techpowerup.org</a>.</li>
+    <li>Copy the <span class="strong">Image URL</span> found below the uploaded image.</li>
+    <li>Paste URL in the box below; press <strong>Submit</strong>.</li>
+    <li>Verify info and click <strong>Create</strong>.</li>
+</ol>
+<br />
+
+
+    Screenshot URL:
+<input type="text" name="inputImage" id="inputImage" />
+<button onclick="processImage()">Submit</button>
+<br>
+<ul>
+    <li>Supported image formats: JPEG, PNG, GIF, BMP.</li>
+    <li>Image file size must be less than 4MB.</li>
+    <li>Image dimensions must be between 50 x 50 and 4200 x 4200 pixels, and the image cannot be larger than 10 megapixels.</li>
+</ul>
+
+<br>
+<br>
+
+
+@*<div id="jsonOutput" style="width:600px; display:table-cell;">
+    Text Results:
+    <textarea id="responseTextArea" class="UIInput"
+              style="width:580px; height:400px;"></textarea>
+</div>*@
+
+
 
 <h4>progress</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                @* <label asp-for="UserId" class="control-label"></label> *@
-                <input asp-for="UserId" class="form-control" style="visibility: hidden" value="@ViewBag.UserId"></input>
+        <div id="wrapper" style="width:1020px; display:table;">
+
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    @* <label asp-for="UserId" class="control-label"></label> *@
+                    <input asp-for="UserId" class="form-control" style="visibility: hidden" value="@ViewBag.UserId">
+                </div>
+                <div class="form-group">
+                    <label asp-for="flights" class="control-label"></label>
+                    <input asp-for="flights" class="form-control" />
+                    <span asp-validation-for="flights" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="steps" class="control-label"></label>
+                    <input asp-for="steps" class="form-control" />
+                    <span asp-validation-for="steps" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="distance" class="control-label"></label>
+                    <input asp-for="distance" class="form-control" />
+                    <span asp-validation-for="distance" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+            <div id="imageDiv" style="width:420px; display:table-cell;">
+                Source image:
+                <br><br>
+                <img id="sourceImage" width="400" />
             </div>
-            <div class="form-group">
-                <label asp-for="flights" class="control-label"></label>
-                <input asp-for="flights" class="form-control" />
-                <span asp-validation-for="flights" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="steps" class="control-label"></label>
-                <input asp-for="steps" class="form-control" />
-                <span asp-validation-for="steps" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="distance" class="control-label"></label>
-                <input asp-for="distance" class="form-control" />
-                <span asp-validation-for="distance" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
