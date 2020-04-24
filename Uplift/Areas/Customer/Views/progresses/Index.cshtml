@@ -5,91 +5,50 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Track Progress</h1>
-
-@*<div>
-    <input id="CurrentUser" style="visibility: hidden" value="@ViewBag.CurrentUser">
-</div>*@
+<h1>Index</h1>
 
 <p>
-    @Html.ActionLink(ViewBag.Social ? "View and Edit Personal Feed" : "View Social Feed", "Index", new { sortOrder = "date", social = !ViewBag.Social})
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("User", "Index", new { sortOrder = ViewBag.UserSortParm, social = ViewBag.Social })
+                User
             </th>
             <th>
-                @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm, social = ViewBag.Social })
+                @Html.DisplayNameFor(model => model.flights)
             </th>
             <th>
-                @Html.ActionLink("Flights Climbed", "Index", new { sortOrder = ViewBag.FlightsSortParm, social = ViewBag.Social })
+                @Html.DisplayNameFor(model => model.steps)
             </th>
             <th>
-                @Html.ActionLink("Steps", "Index", new { sortOrder = ViewBag.StepsSortParm, social = ViewBag.Social })
-            </th>
-            <th>
-                @Html.ActionLink("Walk/Run Distance", "Index", new { sortOrder = ViewBag.DistanceSortParm, social = ViewBag.Social })
+                @Html.DisplayNameFor(model => model.distance)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            //add permissions for edit/delete
-            @if (ViewBag.Social)
-            { 
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdentityUser.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreateDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.flights)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.steps)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.distance)
-                    </td>
-                </tr>
-
-                    }
-                    else
-                    {
-
-                    if (Equals(item.IdentityUser.Email, User.Identity.Name))
-                    {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdentityUser.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreateDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.flights)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.steps)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.distance)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                    </td>
-                </tr>
-                }
-                }
-                }
-        
-            </tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.flights)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.steps)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.distance)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
 </table>
