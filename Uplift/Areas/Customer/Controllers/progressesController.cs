@@ -36,10 +36,59 @@ namespace Uplift.Areas.Customer.Controllers
     //}
 
     // GET: Customer/progresses
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string sortOrder, bool social)
         {
             var applicationDbContext = _context.Progress.Include(p => p.IdentityUser);
-            return View(await applicationDbContext.ToListAsync());
+
+            ViewBag.UserSortParm = sortOrder == "user"? "user" : "user_desc";
+            ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
+            ViewBag.FlightsSortParm = sortOrder == "flights" ? "flights_desc" : "flights";
+            ViewBag.StepsSortParm = sortOrder == "steps" ? "steps_desc" : "steps";
+            ViewBag.DistanceSortParm = sortOrder == "distance" ? "distance_desc" : "distance";
+
+            ViewBag.Social = social;
+
+            var entries = from p in applicationDbContext
+                           select p;
+            switch (sortOrder)
+            {
+                case "user":
+                    entries = entries.OrderBy(s => s.IdentityUser.Email);
+                    break;
+                case "user_desc":
+                    entries = entries.OrderByDescending(s => s.IdentityUser.Email);
+                    break;
+                case "date":
+                    entries = entries.OrderBy(s => s.CreateDate);
+                    break;
+                case "date_desc":
+                    entries = entries.OrderByDescending(s => s.CreateDate);
+                    break;
+                case "flights":
+                    entries = entries.OrderBy(s => s.flights);
+                    break;
+                case "flights_desc":
+                    entries = entries.OrderByDescending(s => s.flights);
+                    break;
+                case "steps":
+                    entries = entries.OrderBy(s => s.steps);
+                    break;
+                case "steps_desc":
+                    entries = entries.OrderByDescending(s => s.steps);
+                    break;
+                case "distance":
+                    entries = entries.OrderBy(s => s.distance);
+                    break;
+                case "distance_desc":
+                    entries = entries.OrderByDescending(s => s.distance);
+                    break;
+                default:
+                    entries = entries.OrderByDescending(s => s.CreateDate);
+                    break;
+            }
+
+
+            return View(await entries.ToListAsync());
         }
 
         // GET: Customer/progresses/Details/5
@@ -79,6 +128,7 @@ namespace Uplift.Areas.Customer.Controllers
             if (ModelState.IsValid)
             {
                 progress.ID = Guid.NewGuid();
+                progress.CreateDate = DateTime.Now;
                 _context.Add(progress);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

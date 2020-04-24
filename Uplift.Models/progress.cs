@@ -14,6 +14,7 @@ namespace Uplift.Models
 
         [Required]
         public String UserId { get; set; }
+        public DateTime CreateDate { get; set; }
 
         [ForeignKey("UserId")]
         public IdentityUser IdentityUser { get; set; }
