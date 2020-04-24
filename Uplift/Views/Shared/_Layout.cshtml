@@ -40,8 +40,8 @@
                     <li class="nav-item">
                         <a class="nav-link" asp-area="" asp-controller="Contact" asp-action="Create">Contact Us</a>
                     </li>
-                    @*@if (User.IsInRole(SD.Admin))
-        {*@
+                    @if (User.IsInRole(SD.Admin))
+        {
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropDown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Administration
@@ -51,7 +51,7 @@
 
                         </div>
                     </li>
-                    @*}*@
+                    }
                 </ul>
             </div>
             <partial name="_LoginPartial" />

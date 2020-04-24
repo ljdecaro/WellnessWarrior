@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Uplift.DataAccess.Data;
 using Uplift.Models;
+using Uplift.Utility;
 
 namespace Uplift.Areas.Customer
 {
@@ -21,6 +23,7 @@ namespace Uplift.Areas.Customer
         }
 
         // GET: Customer/Contact
+        [Authorize(Roles = SD.Admin)]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Contact.ToListAsync());
