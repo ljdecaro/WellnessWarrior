@@ -5,32 +5,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Track Progress</h1>
+@if (User.IsInRole(SD.Admin) && ViewBag.Admin)
+{
+    <h1>Administrator: User Entries</h1>
 
-@*<div>
-    <input id="CurrentUser" style="visibility: hidden" value="@ViewBag.CurrentUser">
-</div>*@
+}
+else
+{
+    <h1>Track @(ViewBag.Social?"Social":"Personal") Progress</h1>
+    <p>
+        @Html.ActionLink(ViewBag.Social ? "View and Edit Personal Feed" : "View Social Feed", "Index", new { sortOrder = "date", social = !ViewBag.Social })
+    </p>
+}
 
-<p>
-    @Html.ActionLink(ViewBag.Social ? "View and Edit Personal Feed" : "View Social Feed", "Index", new { sortOrder = "date", social = !ViewBag.Social})
-</p>
+
+
 <table class="table">
+    @using Uplift.Utility
+
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("User", "Index", new { sortOrder = ViewBag.UserSortParm, social = ViewBag.Social })
+                @Html.ActionLink("User", "Index", new { sortOrder = ViewBag.UserSortParm, social = ViewBag.Social, admin = ViewBag.admin })
             </th>
             <th>
-                @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm, social = ViewBag.Social })
+                @Html.ActionLink("Date", "Index", new { sortOrder = ViewBag.DateSortParm, social = ViewBag.Social, admin = ViewBag.admin })
             </th>
             <th>
-                @Html.ActionLink("Flights Climbed", "Index", new { sortOrder = ViewBag.FlightsSortParm, social = ViewBag.Social })
+                @Html.ActionLink("Flights Climbed", "Index", new { sortOrder = ViewBag.FlightsSortParm, social = ViewBag.Social, admin = ViewBag.admin })
             </th>
             <th>
-                @Html.ActionLink("Steps", "Index", new { sortOrder = ViewBag.StepsSortParm, social = ViewBag.Social })
+                @Html.ActionLink("Steps", "Index", new { sortOrder = ViewBag.StepsSortParm, social = ViewBag.Social, admin = ViewBag.admin })
             </th>
             <th>
-                @Html.ActionLink("Walk/Run Distance", "Index", new { sortOrder = ViewBag.DistanceSortParm, social = ViewBag.Social })
+                @Html.ActionLink("Walk/Run Distance", "Index", new { sortOrder = ViewBag.DistanceSortParm, social = ViewBag.Social, admin = ViewBag.admin })
             </th>
             <th></th>
         </tr>
@@ -40,7 +48,7 @@
         {
             //add permissions for edit/delete
             @if (ViewBag.Social)
-            { 
+            {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.IdentityUser.Email)
@@ -57,39 +65,48 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.distance)
                     </td>
-                </tr>
 
+                    @if (User.IsInRole(SD.Admin) && ViewBag.Admin)
+                    {
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        </td>
                     }
-                    else
-                    {
-
-                    if (Equals(item.IdentityUser.Email, User.Identity.Name))
-                    {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.IdentityUser.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CreateDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.flights)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.steps)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.distance)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                    </td>
                 </tr>
+
+            }
+            else
+            {
+
+                if (Equals(item.IdentityUser.Email, User.Identity.Name))
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IdentityUser.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreateDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.flights)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.steps)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.distance)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        </td>
+                    </tr>
                 }
-                }
-                }
-        
-            </tbody>
+            }
+        }
+
+    </tbody>
 </table>

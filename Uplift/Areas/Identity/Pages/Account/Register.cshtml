@@ -8,10 +8,30 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript">
+
+    $(document).ready(function () {
+
+        var viewBagAlert = "@ViewBag.alert"
+        if (viewBagAlert != "" ) {
+            document.getElementById("alertPane").classList.add("alert-success")
+            document.getElementById("alertPane").style.visibility = "visible"
+
+            document.getElementById("alertPane").innerHTML = "@ViewBag.alert"
+        }
+    })
+
+    </script>
+</head>
+
+
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Create a new account.</h4>
+            <div id="alertPane" class="rounded border-secondary text-center" style="visibility:hidden; padding:10px"> </div>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
@@ -29,18 +49,21 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="form-group row">
-                <input type="radio" name="rdUserRole" value="@SD.Admin" /> @SD.Admin
-                <input type="radio" name="rdUserRole" value="@SD.Manager" /> @SD.Manager
-                <input type="radio" name="rdUserRole" value="Customer" checked /> Customer
-
-            </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            @if (User.IsInRole(SD.Admin))
+            {
+                <div class="form-group row">
+                    <input type="radio" name="rdUserRole" value="@SD.Admin" checked/> @SD.Admin
+                    <input type="radio" name="rdUserRole" value="Customer"  /> Customer
+                </div>
+            }
+        <button type="submit" class="btn btn-primary">Register</button>
         </form>
     </div>
 
 </div>
 
 @section Scripts {
+
+
     <partial name="_ValidationScriptsPartial" />
 }

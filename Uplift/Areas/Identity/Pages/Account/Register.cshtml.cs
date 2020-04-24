@@ -71,6 +71,7 @@ namespace Uplift.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -86,13 +87,13 @@ namespace Uplift.Areas.Identity.Pages.Account
                     {
                         await _userManager.AddToRoleAsync(user, SD.Admin);
                     }
-                    else
-                    {
-                        if (role == SD.Manager)
-                        {
-                            await _userManager.AddToRoleAsync(user, SD.Manager);
-                        }
-                    }
+                    //else
+                    //{
+                    //    if (role == SD.Manager)
+                    //    {
+                    //        await _userManager.AddToRoleAsync(user, SD.Manager);
+                    //    }
+                    //}
 
                     _logger.LogInformation("User created a new account with password.");
 
@@ -111,10 +112,13 @@ namespace Uplift.Areas.Identity.Pages.Account
                     {
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                     }
-                    else
+                    else if (!User.IsInRole(SD.Admin))
                     {
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
+                    } else
+                    {
+                        ViewData["alert"] = role +" " + user.Email + " added successfully.";
                     }
                 }
                 foreach (var error in result.Errors)

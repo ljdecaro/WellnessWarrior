@@ -36,17 +36,18 @@ namespace Uplift.Areas.Customer.Controllers
     //}
 
     // GET: Customer/progresses
-    public async Task<IActionResult> Index(string sortOrder, bool social)
+    public async Task<IActionResult> Index(string sortOrder, bool social, bool admin)
         {
             var applicationDbContext = _context.Progress.Include(p => p.IdentityUser);
 
-            ViewBag.UserSortParm = sortOrder == "user"? "user" : "user_desc";
+            ViewBag.UserSortParm = sortOrder == "user"? "user_desc" : "user";
             ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
             ViewBag.FlightsSortParm = sortOrder == "flights" ? "flights_desc" : "flights";
             ViewBag.StepsSortParm = sortOrder == "steps" ? "steps_desc" : "steps";
             ViewBag.DistanceSortParm = sortOrder == "distance" ? "distance_desc" : "distance";
 
             ViewBag.Social = social;
+            ViewBag.Admin = admin;
 
             var entries = from p in applicationDbContext
                            select p;
