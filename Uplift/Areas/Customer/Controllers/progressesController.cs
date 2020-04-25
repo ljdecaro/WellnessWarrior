@@ -46,6 +46,7 @@ namespace Uplift.Areas.Customer.Controllers
             ViewBag.StepsSortParm = sortOrder == "steps" ? "steps_desc" : "steps";
             ViewBag.DistanceSortParm = sortOrder == "distance" ? "distance_desc" : "distance";
 
+            ViewBag.SortOrder = sortOrder;
             ViewBag.Social = social;
             ViewBag.Admin = admin;
 
