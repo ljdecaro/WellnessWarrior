@@ -5,26 +5,26 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Admin Details</h1>
 
 <div>
-    <h4>your recent progress</h4>
+    <h4>User Progress</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
             Username
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.IdentityUser.Email)
+            @Html.DisplayFor(model => model.IdentityUser.UserName)
         </dd>
         <dt class="col-sm-2">
-Create Date        
+            Create Date
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.CreateDate)
         </dd>
         <dt class="col-sm-2">
-Flights Climbed
+            Flights Climbed
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.flights)

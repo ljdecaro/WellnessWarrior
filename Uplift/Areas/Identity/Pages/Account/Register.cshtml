@@ -52,8 +52,8 @@
             @if (User.IsInRole(SD.Admin))
             {
                 <div class="form-group row">
-                    <input type="radio" name="rdUserRole" value="@SD.Admin" checked/> @SD.Admin
-                    <input type="radio" name="rdUserRole" value="Customer"  /> Customer
+                    <input type="radio" name="rdUserRole" style="margin-left:20px" value="@SD.Admin" checked/> @SD.Admin
+                    <input type="radio" name="rdUserRole" style="margin-left:20px" value="Customer"  /> Customer
                 </div>
             }
         <button type="submit" class="btn btn-primary">Register</button>

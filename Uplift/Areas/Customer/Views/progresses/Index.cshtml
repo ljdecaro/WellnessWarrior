@@ -5,28 +5,19 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@if (User.IsInRole(SD.Admin) && ViewBag.Admin)
-{
-    <h1>Administrator: User Entries</h1>
 
-}
-else
-{
     <h1>Track @(ViewBag.Social?"Social":"Personal") Progress</h1>
     <p>
         @Html.ActionLink(ViewBag.Social ? "View and Edit Personal Feed" : "View Social Feed", "Index", new { sortOrder = "date", social = !ViewBag.Social })
     </p>
-}
 
 
 <table class="table table-striped table-hover" style="margin-top:50px; text-align:center;">
-    @using Uplift.Utility
-
-    <thead class="thead-dark" style="vertical-align:middle">
+    <thead class="thead-dark">
         <tr>
             <th >
                 User <br />
-                <a href="@Url.Action("Index", new { sortOrder = ViewBag.UserSortParm, social = ViewBag.Social, admin = ViewBag.admin })">
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.UserSortParm, social = ViewBag.Social })">
                     @if (ViewBag.SortOrder == "user")
                     {<i class="material-icons" style="font-size:18px">expand_less</i> }
                     else if (ViewBag.SortOrder == "user_desc")
@@ -37,7 +28,7 @@ else
             </th>
             <th >
                 Date <br />
-                <a href="@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, social = ViewBag.Social, admin = ViewBag.admin })">
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm, social = ViewBag.Social })">
                     @if (ViewBag.SortOrder == "date")
                     {<i class="material-icons" style="font-size:18px">expand_less</i> }
                     else if (ViewBag.SortOrder == "date_desc")
@@ -48,7 +39,7 @@ else
             </th>
             <th >
                 Flights Climbed <br />
-                <a href="@Url.Action("Index", new { sortOrder = ViewBag.FlightsSortParm, social = ViewBag.Social, admin = ViewBag.admin })">
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.FlightsSortParm, social = ViewBag.Social })">
                     @if (ViewBag.SortOrder == "flights")
                     {<i class="material-icons" style="font-size:18px">expand_less</i> }
                     else if (ViewBag.SortOrder == "flights_desc")
@@ -59,7 +50,7 @@ else
             </th>
             <th >
                 Steps <br />
-                <a href="@Url.Action("Index", new { sortOrder = ViewBag.StepsSortParm, social = ViewBag.Social, admin = ViewBag.admin })">
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.StepsSortParm, social = ViewBag.Social })">
                     @if (ViewBag.SortOrder == "steps")
                     {<i class="material-icons" style="font-size:18px">expand_less</i> }
                     else if (ViewBag.SortOrder == "steps_desc")
@@ -70,7 +61,7 @@ else
             </th>
             <th >
                 Walk/Run Distance <br />
-                <a href="@Url.Action("Index", new { sortOrder = ViewBag.DistanceSortParm, social = ViewBag.Social, admin = ViewBag.admin })">
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.DistanceSortParm, social = ViewBag.Social })">
                     @if (ViewBag.SortOrder == "distance")
                     {<i class="material-icons" style="font-size:18px">expand_less</i> }
                     else if (ViewBag.SortOrder == "distance_desc")
@@ -80,13 +71,12 @@ else
                 </a>
             </th>
             @if (!ViewBag.Social)
-            { <th></th> }
+            { <th style="width:250px"></th> }
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            //add permissions for edit/delete
             @if (ViewBag.Social)
             {
                 <tr>
@@ -105,15 +95,6 @@ else
                     <td>
                         @Html.DisplayFor(modelItem => item.distance)
                     </td>
-
-                    @*@if (User.IsInRole(SD.Admin) && ViewBag.Admin)
-                    {
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-                        </td>
-                    }*@
                 </tr>
 
             }

@@ -7,33 +7,38 @@
 
 <h1>Delete</h1>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Are you sure you want to delete your progress?</h3>
 <div>
-    <h4>progress</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdentityUser)
+        <dt class="col-sm-2">
+            Username
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdentityUser.Id)
-        </dd class>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.flights)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdentityUser.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            Create Date
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreateDate)
+        </dd>
+        <dt class="col-sm-2">
+            FLights Climbed
+        </dt>
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.flights)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.steps)
+        <dt class="col-sm-2">
+           Steps
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.steps)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.distance)
+        <dt class="col-sm-2">
+            Run/Walk Distance
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.distance)
         </dd>
     </dl>

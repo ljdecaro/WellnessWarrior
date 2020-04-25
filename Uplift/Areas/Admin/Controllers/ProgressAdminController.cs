@@ -9,47 +9,36 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Uplift.DataAccess.Data;
 using Uplift.Models;
+using Uplift.Utility;
 
-namespace Uplift.Areas.Customer.Controllers
+namespace Uplift.Areas.Admin
 {
-    [Area("Customer")]
-    [Authorize]
-    public class progressesController : Controller
+    [Area("Admin")]
+    [Authorize(Roles = SD.Admin)]
+    public class ProgressAdminController : Controller
     {
-
-
         private readonly ApplicationDbContext _context;
-
-        private readonly UserManager<IdentityUser> userManager;
-
-        public progressesController(ApplicationDbContext context,
-        UserManager<IdentityUser> userManager)
+  
+        public ProgressAdminController(ApplicationDbContext context)
         {
             _context = context;
-            this.userManager = userManager;
         }
 
-    //    public progressesController(ApplicationDbContext context)
-    //{
-    //    _context = context;
-    //}
-
-    // GET: Customer/progresses
-    public async Task<IActionResult> Index(string sortOrder, bool social)
+        // GET: Admin/ProgressAdmin
+        public async Task<IActionResult> Index(string sortOrder)
         {
             var applicationDbContext = _context.Progress.Include(p => p.IdentityUser);
 
-            ViewBag.UserSortParm = sortOrder == "user"? "user_desc" : "user";
+            ViewBag.UserSortParm = sortOrder == "user" ? "user_desc" : "user";
             ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
             ViewBag.FlightsSortParm = sortOrder == "flights" ? "flights_desc" : "flights";
             ViewBag.StepsSortParm = sortOrder == "steps" ? "steps_desc" : "steps";
             ViewBag.DistanceSortParm = sortOrder == "distance" ? "distance_desc" : "distance";
 
             ViewBag.SortOrder = sortOrder;
-            ViewBag.Social = social;
 
             var entries = from p in applicationDbContext
-                           select p;
+                          select p;
             switch (sortOrder)
             {
                 case "user":
@@ -91,7 +80,7 @@ namespace Uplift.Areas.Customer.Controllers
             return View(await entries.ToListAsync());
         }
 
-        // GET: Customer/progresses/Details/5
+        // GET: Admin/ProgressAdmin/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)
@@ -110,34 +99,38 @@ namespace Uplift.Areas.Customer.Controllers
             return View(progress);
         }
 
-        // GET: Customer/progresses/Create
+        // GET: Admin/ProgressAdmin/Create
         public IActionResult Create()
         {
 
-            ViewData["UserId"] = userManager.GetUserId(HttpContext.User);
+
+
+            ViewData["UserId"] = new SelectList(_context.Users, "UserName", "UserName");
             return View();
         }
 
-        // POST: Customer/progresses/Create
+        // POST: Admin/ProgressAdmin/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,UserId,flights,steps,distance")] progress progress)
+        public async Task<IActionResult> Create([Bind("ID,UserId,CreateDate,flights,steps,distance")] progress progress)
         {
             if (ModelState.IsValid)
             {
+                //User ID is initially passed as an email. This line convert to Guid string
+                progress.UserId = _context.Users.FirstOrDefault(u => u.UserName == progress.UserId).Id;
+
                 progress.ID = Guid.NewGuid();
-                progress.CreateDate = DateTime.Now;
                 _context.Add(progress);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = "123";
+            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", progress.UserId);
             return View(progress);
         }
 
-        // GET: Customer/progresses/Edit/5
+        // GET: Admin/ProgressAdmin/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -150,17 +143,21 @@ namespace Uplift.Areas.Customer.Controllers
             {
                 return NotFound();
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", progress.UserId);
+            //ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", progress.UserId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == progress.UserId);
+            ViewData["UserId"] = user.UserName; 
+
             return View(progress);
         }
 
-        // POST: Customer/progresses/Edit/5
+        // POST: Admin/ProgressAdmin/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("ID,UserId,CreateDate,flights,steps,distance")] progress progress)
         {
+            string userName = progress.UserId;
             if (id != progress.ID)
             {
                 return NotFound();
@@ -170,6 +167,9 @@ namespace Uplift.Areas.Customer.Controllers
             {
                 try
                 {
+                    //User ID is initially passed as an email. This line convert to Guid string
+                    progress.UserId = _context.Users.FirstOrDefault(u => u.UserName == progress.UserId).Id;
+
                     _context.Update(progress);
                     await _context.SaveChangesAsync();
                 }
@@ -186,11 +186,12 @@ namespace Uplift.Areas.Customer.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["UserId"] = new SelectList(_context.Users, "Id", "Id", progress.UserId);
+            var user = _context.Users.FirstOrDefault(u => u.Id == progress.UserId);
+            ViewData["UserId"] = userName; 
             return View(progress);
         }
 
-        // GET: Customer/progresses/Delete/5
+        // GET: Admin/ProgressAdmin/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -209,7 +210,7 @@ namespace Uplift.Areas.Customer.Controllers
             return View(progress);
         }
 
-        // POST: Customer/progresses/Delete/5
+        // POST: Admin/ProgressAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -219,6 +220,8 @@ namespace Uplift.Areas.Customer.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
+
 
         private bool progressExists(Guid id)
         {
