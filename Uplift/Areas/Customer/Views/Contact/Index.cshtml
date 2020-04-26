@@ -1,60 +1,96 @@
 ﻿@model IEnumerable<Uplift.Models.Contact>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Contact Form Responses";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Contact Form Responses</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
+<table class="table table-striped table-hover" style="margin-top:50px; text-align:center;">
+    <thead class="thead-dark">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.CreateDate)
+                Create Date <br />
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.DateSortParm })">
+                    @if (ViewBag.SortOrder == "date")
+                    {<i class="material-icons" style="font-size:18px">expand_less</i> }
+                    else if (ViewBag.SortOrder == "date_desc")
+                    { <i class="material-icons" style="font-size:18px">expand_more</i>}
+                    else
+                    {<i class="material-icons" style="font-size:18px">unfold_more</i>}
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Email)
+                <br />
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.EmailSortParm })">
+                    @if (ViewBag.SortOrder == "email")
+                    {<i class="material-icons" style="font-size:18px">expand_less</i> }
+                    else if (ViewBag.SortOrder == "email_desc")
+                    { <i class="material-icons" style="font-size:18px">expand_more</i>}
+                    else
+                    {<i class="material-icons" style="font-size:18px">unfold_more</i>}
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+                <br />
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.NameSortParm })">
+                    @if (ViewBag.SortOrder == "name")
+                    {<i class="material-icons" style="font-size:18px">expand_less</i> }
+                    else if (ViewBag.SortOrder == "name_desc")
+                    { <i class="material-icons" style="font-size:18px">expand_more</i>}
+                    else
+                    {<i class="material-icons" style="font-size:18px">unfold_more</i>}
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Rating)
+                <br />
+                <a href="@Url.Action("Index", new { sortOrder = ViewBag.RatingSortParm })">
+                    @if (ViewBag.SortOrder == "rating")
+                    {<i class="material-icons" style="font-size:18px">expand_less</i> }
+                    else if (ViewBag.SortOrder == "rating_desc")
+                    { <i class="material-icons" style="font-size:18px">expand_more</i>}
+                    else
+                    {<i class="material-icons" style="font-size:18px">unfold_more</i>}
+                </a>
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Comment)
-            </th>
-            <th></th>
+            </th>*@
+            <th style="width:300px"></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rating)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.Comment)
+                </td>*@
             <td>
-                @Html.DisplayFor(modelItem => item.CreateDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Comment)
-            </td>
-            <td>
+                <a asp-action="Details" asp-route-id="@item.ID">View Comment</a> |
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
             </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>

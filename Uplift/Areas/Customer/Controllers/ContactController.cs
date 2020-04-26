@@ -24,9 +24,53 @@ namespace Uplift.Areas.Customer
 
         // GET: Customer/Contact
         [Authorize(Roles = SD.Admin)]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.Contact.ToListAsync());
+            var applicationDbContext = _context.Contact;
+
+            ViewBag.EmailSortParm = sortOrder == "email" ? "email_desc" : "email";
+            ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
+            ViewBag.NameSortParm = sortOrder == "name" ? "name_desc" : "name";
+            ViewBag.RatingSortParm = sortOrder == "rating" ? "rating_desc" : "rating";
+
+
+            ViewBag.SortOrder = sortOrder;
+
+            var entries = from p in applicationDbContext
+                          select p;
+            switch (sortOrder)
+            {
+                case "email":
+                    entries = entries.OrderBy(s => s.Email);
+                    break;
+                case "email_desc":
+                    entries = entries.OrderByDescending(s => s.Email);
+                    break;
+                case "date":
+                    entries = entries.OrderBy(s => s.CreateDate);
+                    break;
+                case "date_desc":
+                    entries = entries.OrderByDescending(s => s.CreateDate);
+                    break;
+                case "rating":
+                    entries = entries.OrderBy(s => s.Rating);
+                    break;
+                case "rating_desc":
+                    entries = entries.OrderByDescending(s => s.Rating);
+                    break;
+                case "name":
+                    entries = entries.OrderBy(s => s.Name);
+                    break;
+                case "name_desc":
+                    entries = entries.OrderByDescending(s => s.Name);
+                    break;
+                default:
+                    entries = entries.OrderByDescending(s => s.CreateDate);
+                    break;
+            }
+
+
+            return View(await entries.ToListAsync());
         }
 
         // GET: Customer/Contact/Details/5
@@ -66,7 +110,7 @@ namespace Uplift.Areas.Customer
                 contact.CreateDate = DateTime.Now;
                 _context.Add(contact);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                ViewData["alert"] = "Comment submitted. Thank you!";
             }
             return View(contact);
         }
