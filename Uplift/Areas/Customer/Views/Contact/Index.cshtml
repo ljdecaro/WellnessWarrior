@@ -10,7 +10,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table table-striped table-hover" style="margin-top:50px; text-align:center;">
+<br/>
+<h5><strong>Number of Responses: </strong>@ViewBag.Count &nbsp;&nbsp;&nbsp;<strong>Average Rating: </strong>@ViewBag.Average</h5>
+    <table class="table table-striped table-hover" style="margin-top:50px; text-align:center;">
     <thead class="thead-dark">
         <tr>
             <th>

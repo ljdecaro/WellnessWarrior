@@ -38,6 +38,16 @@ namespace Uplift.Areas.Customer
 
             var entries = from p in applicationDbContext
                           select p;
+
+            double count = 0;
+            double sum = 0;
+            foreach (var e in entries) {
+                sum += e.Rating;
+                count++;
+            }
+            ViewBag.Average = Math.Round(sum / count, 2);
+            ViewBag.Count = count;
+
             switch (sortOrder)
             {
                 case "email":
