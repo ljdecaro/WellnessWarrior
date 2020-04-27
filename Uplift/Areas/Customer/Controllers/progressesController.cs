@@ -64,7 +64,7 @@ namespace Uplift.Areas.Customer.Controllers
             }
             ViewBag.fAverage = Math.Round(fsum / count, 2);
             ViewBag.sAverage = Math.Round(ssum / count, 2);
-            ViewBag.dAverage = Math.Round(fsum / count, 2);
+            ViewBag.dAverage = Math.Round(dsum / count, 2);
             ViewBag.Count = count;
 
             switch (sortOrder)

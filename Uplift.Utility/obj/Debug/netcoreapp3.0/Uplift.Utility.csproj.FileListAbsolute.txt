@@ -1,0 +1,8 @@
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\bin\Debug\netcoreapp3.0\Uplift.Utility.deps.json
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\bin\Debug\netcoreapp3.0\Uplift.Utility.dll
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\bin\Debug\netcoreapp3.0\Uplift.Utility.pdb
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\obj\Debug\netcoreapp3.0\Uplift.Utility.csproj.CoreCompileInputs.cache
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\obj\Debug\netcoreapp3.0\Uplift.Utility.AssemblyInfoInputs.cache
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\obj\Debug\netcoreapp3.0\Uplift.Utility.AssemblyInfo.cs
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\obj\Debug\netcoreapp3.0\Uplift.Utility.dll
+C:\Users\Jake\Downloads\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\Uplift.Utility\obj\Debug\netcoreapp3.0\Uplift.Utility.pdb
