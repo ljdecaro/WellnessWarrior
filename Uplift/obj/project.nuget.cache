@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ncyVLDNXgTYjUC/c+TSZe6BQCbkqRInA+F7+6j/6v+F5z6Q5XFx+W2aFRPM0K2R1KCzzlNRzPzSw8SXxcBWgiA==",
+  "dgSpecHash": "jWxkon0QkNJqjDU9027MJC5VmlshRft3iZF2ZxOeEqlKxw+rMvW3u0F1KeFXThMEHtf4U4m6jX+fH/wMT5pbMw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift\\Uplift.csproj",
+  "projectFilePath": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift\\Uplift.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jake\\.nuget\\packages\\microsoft.aspnetcore.antiforgery\\2.2.0\\microsoft.aspnetcore.antiforgery.2.2.0.nupkg.sha512",
     "C:\\Users\\Jake\\.nuget\\packages\\microsoft.aspnetcore.authentication.abstractions\\2.2.0\\microsoft.aspnetcore.authentication.abstractions.2.2.0.nupkg.sha512",

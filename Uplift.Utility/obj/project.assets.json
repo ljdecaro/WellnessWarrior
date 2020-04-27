@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.Utility\\Uplift.Utility.csproj",
+      "projectUniqueName": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.Utility\\Uplift.Utility.csproj",
       "projectName": "Uplift.Utility",
-      "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.Utility\\Uplift.Utility.csproj",
+      "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.Utility\\Uplift.Utility.csproj",
       "packagesPath": "C:\\Users\\Jake\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.Utility\\obj\\",
+      "outputPath": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.Utility\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jake\\AppData\\Roaming\\NuGet\\NuGet.Config",

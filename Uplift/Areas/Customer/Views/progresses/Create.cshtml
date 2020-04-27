@@ -91,7 +91,7 @@
         if (isNaN(parseInt(flights))) {
             alert("Error locating 'Flights Climbed,' please manually enter.")
         } else {
-            $("#flights").val(flights); 
+            $("#flights").val(flights);
         }
 
 
@@ -103,7 +103,7 @@
         } else {
             $("#steps").val(steps);
         }
-        
+
 
         var stPos = text.indexOf("Running Distance") + 17;
         var endPos = text.indexOf("m", stPos);
@@ -120,45 +120,12 @@
 
 
 
-<h1>Create</h1>
+<h1>Create Progress</h1>
 
 
 
 
-<br />
-<h4>Follow these steps to upload a profile:</h4>
-<ol>
-    <li>Upload a screenshot of your supported profile to <a href="https://www.techpowerup.org/upload/" target="_blank">techpowerup.org</a>.</li>
-    <li>Copy the <span class="strong">Image URL</span> found below the uploaded image.</li>
-    <li>Paste URL in the box below; press <strong>Submit</strong>.</li>
-    <li>Verify info and click <strong>Create</strong>.</li>
-</ol>
-<br />
-
-
-    Screenshot URL:
-<input type="text" name="inputImage" id="inputImage" />
-<button onclick="processImage()">Submit</button>
-<br>
-<ul>
-    <li>Supported image formats: JPEG, PNG, GIF, BMP.</li>
-    <li>Image file size must be less than 4MB.</li>
-    <li>Image dimensions must be between 50 x 50 and 4200 x 4200 pixels, and the image cannot be larger than 10 megapixels.</li>
-</ul>
-
-<br>
-<br>
-
-
-@*<div id="jsonOutput" style="width:600px; display:table-cell;">
-    Text Results:
-    <textarea id="responseTextArea" class="UIInput"
-              style="width:580px; height:400px;"></textarea>
-</div>*@
-
-
-
-<h4>progress</h4>
+<h4>Scroll Down to Upload iPhone Profile</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -171,17 +138,17 @@
                     <input asp-for="UserId" class="form-control" style="visibility: hidden" value="@ViewBag.UserId">
                 </div>
                 <div class="form-group">
-                    <label asp-for="flights" class="control-label"></label>
+                    <label class="control-label">Flights Climbed</label>
                     <input asp-for="flights" class="form-control" />
                     <span asp-validation-for="flights" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="steps" class="control-label"></label>
+                    <label class="control-label">Steps</label>
                     <input asp-for="steps" class="form-control" />
                     <span asp-validation-for="steps" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="distance" class="control-label"></label>
+                    <label class="control-label">Run/Walk Distance</label>
                     <input asp-for="distance" class="form-control" />
                     <span asp-validation-for="distance" class="text-danger"></span>
                 </div>
@@ -201,4 +168,53 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+
+
+
+<br />
+
+<table style="margin-top:30px">
+    <tr>
+        <td style="width:50%; vertical-align:top">
+            <h4>iPhone Upload instructions:</h4>
+            <ol>
+                <li>Upload a screenshot of your supported profile in the panel to the right.</li>
+                <li>Copy the <span class="strong">Image URL</span> found below the uploaded image.</li>
+                <li>Paste URL in the box below; press <strong>Use</strong>.</li>
+                <li>Verify info and click <strong>Create</strong>.</li>
+            </ol>
+            <br />
+            Screenshot URL:
+            <input type="text" name="inputImage" id="inputImage" />
+            <button onclick="processImage()">Use</button>
+            <br>
+            <ul>
+                <li>Supported profile types: iPhone iOS13 Health App Activity screen.</li>
+                <li>Supported image formats: JPEG, PNG, GIF, BMP.</li>
+                <li>Image file size must be less than 4MB.</li>
+                <li>Image dimensions must be between 50 x 50 and 4200 x 4200 pixels, and the image cannot be larger than 10 megapixels.</li>
+            </ul>
+        </td>
+        <td style="width:50%">
+            <iframe id="adminLogin" src="https://www.techpowerup.org/upload/" height=500 width=500></iframe>
+        </td>
+    </tr>
+</table>
+
+
+<br>
+<br>
+
+
+@*<div id="jsonOutput" style="width:600px; display:table-cell;">
+        Text Results:
+        <textarea id="responseTextArea" class="UIInput"
+                  style="width:580px; height:400px;"></textarea>
+    </div>*@
+
+
+
+
 

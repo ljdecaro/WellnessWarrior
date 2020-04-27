@@ -9132,11 +9132,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.DataAccess\\Uplift.DataAccess.csproj",
+      "projectUniqueName": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.DataAccess\\Uplift.DataAccess.csproj",
       "projectName": "Uplift.DataAccess",
-      "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.DataAccess\\Uplift.DataAccess.csproj",
+      "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.DataAccess\\Uplift.DataAccess.csproj",
       "packagesPath": "C:\\Users\\Jake\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.DataAccess\\obj\\",
+      "outputPath": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.DataAccess\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Jake\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -9152,11 +9152,11 @@
       "frameworks": {
         "netcoreapp3.0": {
           "projectReferences": {
-            "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.Models\\Uplift.Models.csproj": {
-              "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.Models\\Uplift.Models.csproj"
+            "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.Models\\Uplift.Models.csproj": {
+              "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.Models\\Uplift.Models.csproj"
             },
-            "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.Utility\\Uplift.Utility.csproj": {
-              "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Final-Project-dc5362a81257be0cba3cba1d542f11597e495454\\Uplift.Utility\\Uplift.Utility.csproj"
+            "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.Utility\\Uplift.Utility.csproj": {
+              "projectPath": "C:\\Users\\Jake\\Downloads\\Final-Project\\Final-Project\\Uplift.Utility\\Uplift.Utility.csproj"
             }
           }
         }
