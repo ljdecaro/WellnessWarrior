@@ -50,6 +50,23 @@ namespace Uplift.Areas.Customer.Controllers
 
             var entries = from p in applicationDbContext
                            select p;
+
+            double count = 0;
+            double fsum = 0;
+            double ssum = 0;
+            double dsum = 0;
+            foreach (var e in entries)
+            {
+                fsum += e.flights;
+                ssum += e.steps;
+                dsum += e.distance;
+                count++;
+            }
+            ViewBag.fAverage = Math.Round(fsum / count, 2);
+            ViewBag.sAverage = Math.Round(ssum / count, 2);
+            ViewBag.dAverage = Math.Round(fsum / count, 2);
+            ViewBag.Count = count;
+
             switch (sortOrder)
             {
                 case "user":
